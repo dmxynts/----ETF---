@@ -1,0 +1,82 @@
+# ============================================================
+# 红利ETF量化分析系统 - 配置文件
+# 修改此文件后无需修改代码，重启即可生效
+# ============================================================
+
+# ETF 标的配置
+etfs:
+  - code: "510880"
+    name: "华泰柏瑞红利ETF"
+    index_code: "000922"
+    index_name: "中证红利指数"
+  - code: "159581"
+    name: "万家中证红利ETF"
+    index_code: "000922"
+    index_name: "中证红利指数"
+  - code: "515180"
+    name: "易方达中证红利ETF"
+    index_code: "000922"
+    index_name: "中证红利指数"
+  - code: "516828"
+    name: "华泰柏瑞红利低波ETF"
+    index_code: "930846"
+    index_name: "中证红利低波动指数"
+  - code: "563020"
+    name: "易方达红利低波ETF"
+    index_code: "930846"
+    index_name: "中证红利低波动指数"
+  - code: "517100"
+    name: "富国中证红利ETF"
+    index_code: "000922"
+    index_name: "中证红利指数"
+
+# 无风险利率配置
+risk_free:
+  bond_code: "CN10Y"
+  bond_name: "中国10年期国债收益率"
+  lookback_years: 10
+
+# 股债利差择时策略参数
+spread_timing:
+  high_percentile: 0.80     # 高估阈值分位（利差高于此 → 满仓）
+  low_percentile: 0.20      # 低估阈值分位（利差低于此 → 轻仓）
+  full_position: 1.0        # 满仓比例
+  light_position: 0.3       # 轻仓比例
+  window_years: 10          # 滚动窗口年数
+
+# HMM宏观状态模型参数
+hmm:
+  n_states: 4               # 状态数（复苏/过热/滞胀/衰退）
+  n_iter: 5000              # 迭代次数
+  lookback_years: 10        # 回溯年限
+
+# GARCH波动率模型参数
+garch:
+  p: 1
+  q: 1
+  forecast_days: 5          # 预测未来天数
+  vol_threshold: 2.0        # 加仓信号阈值
+  dist: "studentst"         # 分布假设: normal / studentst / skewedstudent
+  model_type: "EGARCH"      # 模型: Garch / EGARCH / GJR-GARCH
+
+# 网格交易参数
+grid:
+  num_grids: 10             # 网格数量
+  max_sharpe: true          # 是否最大化夏普比率
+
+# 风险管理参数
+risk:
+  confidence_level: 0.95    # VaR/ES置信度
+  max_position_ratio: 0.4   # 单行业最大仓位
+  etf_holding: 1000000      # 持仓金额
+
+# 代理配置（留空 = 不启用代理）
+proxy:
+  http: ""
+  https: ""
+  no_proxy: "localhost,127.0.0.1"
+
+# 路径配置（相对于项目根目录）
+paths:
+  cache_dir: "cache"
+  output_dir: "output"
